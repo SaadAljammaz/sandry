@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Sunroll custom font ───────────────────────────────────────────────────
+   Place font files in /public/fonts/
+   Supported formats: woff2 (preferred) → woff → otf (fallback)
+   ───────────────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Sunroll';
+  src: url('/fonts/Sunroll Bold.woff2') format('woff2'),
+       url('/fonts/Sunroll.woff')       format('woff'),
+       url('/fonts/Sunroll.otf')        format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+
+  /* Arabic / RTL overrides */
+  [dir="rtl"] body,
+  [dir="rtl"] p,
+  [dir="rtl"] span,
+  [dir="rtl"] label,
+  [dir="rtl"] input,
+  [dir="rtl"] textarea,
+  [dir="rtl"] select,
+  [dir="rtl"] button {
+    font-family: var(--font-cairo), Arial, sans-serif;
+  }
+
+  [dir="rtl"] h1,
+  [dir="rtl"] h2,
+  [dir="rtl"] h3,
+  [dir="rtl"] h4,
+  [dir="rtl"] h5,
+  [dir="rtl"] h6 {
+    font-family: var(--font-cairo), Arial, sans-serif;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
