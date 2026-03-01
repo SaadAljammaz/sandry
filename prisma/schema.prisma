@@ -74,13 +74,14 @@ model OrderItem {
 }
 
 model Purchase {
-  id          String   @id @default(cuid())
-  description String
-  amount      Float
-  purchasedAt DateTime @default(now())
-  chef        User     @relation(fields: [chefId], references: [id])
-  chefId      String
-  createdAt   DateTime @default(now())
+  id           String   @id @default(cuid())
+  description  String
+  amount       Float
+  purchasedAt  DateTime @default(now())
+  receiptImage String?
+  chef         User     @relation(fields: [chefId], references: [id])
+  chefId       String
+  createdAt    DateTime @default(now())
 }
 
 model CartItem {

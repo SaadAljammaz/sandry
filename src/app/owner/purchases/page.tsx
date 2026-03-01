@@ -15,6 +15,7 @@ interface Purchase {
   description: string;
   amount: number;
   purchasedAt: string;
+  receiptImage: string | null;
   chef: { id: string; name: string; email: string };
 }
 
@@ -25,6 +26,7 @@ export default function OwnerPurchasesPage() {
   const [chefs, setChefs] = useState<Chef[]>([]);
   const [selectedChef, setSelectedChef] = useState("");
   const [loading, setLoading] = useState(true);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const t = useT();
 
   const fetchPurchases = (chefId: string) => {
@@ -131,7 +133,25 @@ export default function OwnerPurchasesPage() {
                         {p.chef.name}
                       </span>
                     </td>
-                    <td className="px-5 py-4 text-gray-900">{p.description}</td>
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-3">
+                        {p.receiptImage && (
+                          <button
+                            type="button"
+                            onClick={() => setLightboxImage(p.receiptImage!)}
+                            className="shrink-0"
+                            title="View receipt"
+                          >
+                            <img
+                              src={p.receiptImage}
+                              alt="receipt"
+                              className="w-10 h-10 rounded-lg object-cover border border-gray-200 hover:opacity-80 transition-opacity"
+                            />
+                          </button>
+                        )}
+                        <span className="text-gray-900">{p.description}</span>
+                      </div>
+                    </td>
                     <td className="px-5 py-4 text-end font-bold text-rose-600">
                       ${p.amount.toFixed(2)}
                     </td>
@@ -142,6 +162,28 @@ export default function OwnerPurchasesPage() {
           </div>
         )}
       </main>
+
+      {/* Receipt image lightbox */}
+      {lightboxImage && (
+        <div
+          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+          onClick={() => setLightboxImage(null)}
+        >
+          <div className="relative max-w-3xl w-full" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setLightboxImage(null)}
+              className="absolute -top-10 right-0 text-white/80 hover:text-white text-sm font-medium"
+            >
+              ✕ Close
+            </button>
+            <img
+              src={lightboxImage}
+              alt="receipt"
+              className="w-full max-h-[85vh] object-contain rounded-2xl"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

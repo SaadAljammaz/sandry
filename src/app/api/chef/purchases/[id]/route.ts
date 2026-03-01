@@ -19,7 +19,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { description, amount, purchasedAt } = await req.json();
+  const { description, amount, purchasedAt, receiptImage } = await req.json();
 
   const parsedAmount = Number(amount);
   if (isNaN(parsedAmount) || parsedAmount <= 0) {
@@ -28,7 +28,12 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
   const updated = await prisma.purchase.update({
     where: { id },
-    data: { description, amount: parsedAmount, purchasedAt: new Date(purchasedAt) },
+    data: {
+      description,
+      amount: parsedAmount,
+      purchasedAt: new Date(purchasedAt),
+      receiptImage: receiptImage !== undefined ? receiptImage : existing.receiptImage,
+    },
   });
 
   return NextResponse.json(updated);

@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { description, amount, purchasedAt } = await req.json();
+  const { description, amount, purchasedAt, receiptImage } = await req.json();
 
   if (!description || !amount || !purchasedAt) {
     return NextResponse.json({ error: "All fields are required" }, { status: 400 });
@@ -59,6 +59,7 @@ export async function POST(req: NextRequest) {
       amount: parsedAmount,
       purchasedAt: new Date(purchasedAt),
       chefId: session.user.id,
+      receiptImage: receiptImage ?? null,
     },
   });
 
