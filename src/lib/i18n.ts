@@ -20,6 +20,7 @@ const en = {
   "nav.ownerDash": "Overview",
   "nav.users": "Users",
   "nav.purchases": "Purchases",
+  "nav.ownerPurchases": "Purchases",
 
   // Landing
   "landing.badge": "✨ Handcrafted with love",
@@ -163,20 +164,14 @@ const en = {
   "chefMenu.edit": "Edit",
   "chefMenu.delete": "Delete",
   "chefMenu.deleteConfirm": "Delete this menu item? This cannot be undone.",
-  "chefMenu.costPrice": "Cost Price ($)",
-  "chefMenu.costPricePlaceholder": "0.00",
 
   // Owner – Dashboard & Users
   "owner.title": "Executive Overview",
   "owner.sub": "Business performance at a glance",
-  "owner.totalProfit": "Total Profit",
-  "owner.margin": "Margin",
   "owner.totalClients": "Total Clients",
-  "owner.profitChart": "Revenue & Profit — last 14 days",
-  "owner.topItems": "Top Items by Profit",
+  "owner.revenueChart": "Revenue — last 14 days",
+  "owner.topItems": "Top Items by Revenue",
   "owner.sold": "sold",
-  "owner.cost": "Cost",
-  "owner.profit": "Profit",
   "owner.users": "User Management",
   "owner.usersSub": "Manage chef and client accounts",
   "owner.makeChef": "Make Chef",
@@ -235,6 +230,7 @@ const en = {
   "analytics.title": "Analytics",
   "analytics.sub": "Overview of your kitchen performance",
   "analytics.totalRevenue": "Total Revenue",
+  "analytics.totalSales": "Total Sales",
   "analytics.totalOrders": "Total Orders",
   "analytics.avgOrder": "Avg Order Value",
   "analytics.thisMonth": "This Month",
@@ -245,6 +241,13 @@ const en = {
   "analytics.topItems": "Top Selling Items",
   "analytics.sold": "sold",
   "analytics.byStatus": "Orders by Status",
+
+  // Owner – Purchases
+  "ownerPurchases.title": "All Purchases",
+  "ownerPurchases.sub": "Purchases logged by all chefs",
+  "ownerPurchases.filterChef": "Chef",
+  "ownerPurchases.allChefs": "All chefs",
+  "ownerPurchases.chef": "Chef",
 } as const;
 
 const ar: { [K in keyof typeof en]: string } = {
@@ -263,6 +266,7 @@ const ar: { [K in keyof typeof en]: string } = {
   "nav.ownerDash": "نظرة عامة",
   "nav.users": "المستخدمون",
   "nav.purchases": "المشتريات",
+  "nav.ownerPurchases": "المشتريات",
 
   // Landing
   "landing.badge": "✨ مصنوع بحب",
@@ -406,20 +410,14 @@ const ar: { [K in keyof typeof en]: string } = {
   "chefMenu.edit": "تعديل",
   "chefMenu.delete": "حذف",
   "chefMenu.deleteConfirm": "هل تريد حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.",
-  "chefMenu.costPrice": "سعر التكلفة ($)",
-  "chefMenu.costPricePlaceholder": "0.00",
 
   // Owner – Dashboard & Users
   "owner.title": "لوحة التحكم التنفيذية",
   "owner.sub": "أداء الأعمال دفعةً واحدة",
-  "owner.totalProfit": "إجمالي الأرباح",
-  "owner.margin": "هامش الربح",
   "owner.totalClients": "إجمالي العملاء",
-  "owner.profitChart": "الإيرادات والأرباح — آخر 14 يوماً",
-  "owner.topItems": "أبرز المنتجات ربحيةً",
+  "owner.revenueChart": "الإيرادات — آخر 14 يوماً",
+  "owner.topItems": "أبرز المنتجات مبيعاً",
   "owner.sold": "مباع",
-  "owner.cost": "التكلفة",
-  "owner.profit": "الربح",
   "owner.users": "إدارة المستخدمين",
   "owner.usersSub": "إدارة حسابات الطهاة والعملاء",
   "owner.makeChef": "ترقية لطاهٍ",
@@ -478,6 +476,7 @@ const ar: { [K in keyof typeof en]: string } = {
   "analytics.title": "التحليلات",
   "analytics.sub": "نظرة عامة على أداء مطبخك",
   "analytics.totalRevenue": "إجمالي الإيرادات",
+  "analytics.totalSales": "إجمالي المبيعات",
   "analytics.totalOrders": "إجمالي الطلبات",
   "analytics.avgOrder": "متوسط قيمة الطلب",
   "analytics.thisMonth": "هذا الشهر",
@@ -488,6 +487,13 @@ const ar: { [K in keyof typeof en]: string } = {
   "analytics.topItems": "أكثر العناصر مبيعاً",
   "analytics.sold": "مباعة",
   "analytics.byStatus": "الطلبات حسب الحالة",
+
+  // Owner – Purchases
+  "ownerPurchases.title": "جميع المشتريات",
+  "ownerPurchases.sub": "المشتريات المسجّلة من قِبَل جميع الطهاة",
+  "ownerPurchases.filterChef": "الطاهي",
+  "ownerPurchases.allChefs": "جميع الطهاة",
+  "ownerPurchases.chef": "الطاهي",
 };
 
 export type TKey = keyof typeof en;

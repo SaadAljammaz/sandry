@@ -35,7 +35,6 @@ model MenuItem {
   name        String
   description String?
   price       Float
-  costPrice   Float       @default(0)
   category    String
   imageUrl    String?
   available   Boolean     @default(true)

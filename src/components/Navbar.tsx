@@ -39,6 +39,7 @@ export function Navbar({ onCartOpen }: { onCartOpen?: () => void }) {
                   <>
                     <NavLink href="/owner/dashboard" current={pathname}>{t("nav.ownerDash")}</NavLink>
                     <NavLink href="/owner/users" current={pathname}>{t("nav.users")}</NavLink>
+                    <NavLink href="/owner/purchases" current={pathname}>{t("nav.ownerPurchases")}</NavLink>
                   </>
                 ) : isChef ? (
                   <>

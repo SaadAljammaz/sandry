@@ -19,7 +19,6 @@ import { useT } from "@/lib/i18n";
 
 interface OwnerStats {
   totalRevenue: number;
-  totalProfit: number;
   totalOrders: number;
   totalClients: number;
   totalPurchases: number;
@@ -27,21 +26,16 @@ interface OwnerStats {
   actualProfit: number;
   actualMonthProfit: number;
   monthRevenue: number;
-  monthProfit: number;
   monthOrders: number;
   todayOrders: number;
   avgOrderValue: number;
-  avgProfit: number;
   newClientsThisMonth: number;
   statusCounts: Record<string, number>;
-  recentDays: { day: string; revenue: number; profit: number; orders: number }[];
+  recentDays: { day: string; revenue: number; orders: number }[];
   topItems: {
     name: string;
     totalQty: number;
     revenue: number;
-    cost: number;
-    profit: number;
-    margin: number;
   }[];
 }
 
@@ -161,9 +155,6 @@ export default function OwnerDashboardPage() {
 
   if (!data) return null;
 
-  const overallMargin =
-    data.totalRevenue > 0 ? Math.round((data.totalProfit / data.totalRevenue) * 100) : 0;
-
   const isDateFiltered = filters.preset !== "all";
 
   return (
@@ -259,19 +250,12 @@ export default function OwnerDashboardPage() {
         </div>
 
         {/* KPI cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
           <StatsCard
-            label={t("analytics.totalRevenue")}
+            label={t("analytics.totalSales")}
             value={`$${data.totalRevenue.toFixed(2)}`}
             icon="💰"
             color="green"
-          />
-          <StatsCard
-            label={t("owner.totalProfit")}
-            value={`$${data.totalProfit.toFixed(2)}`}
-            icon="📈"
-            color="blue"
-            sub={`${overallMargin}% ${t("owner.margin")}`}
           />
           <StatsCard
             label={t("analytics.totalOrders")}
@@ -309,10 +293,10 @@ export default function OwnerDashboardPage() {
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {/* Revenue vs Profit */}
+          {/* Revenue chart */}
           <div className="bg-white rounded-2xl border border-rose-100 shadow-sm p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-6">
-              {t("owner.profitChart")}
+              {t("owner.revenueChart")}
             </h2>
             {data.recentDays.length === 0 ? (
               <div className="h-48 flex items-center justify-center text-gray-400 text-sm">
@@ -327,7 +311,6 @@ export default function OwnerDashboardPage() {
                   <Tooltip formatter={(val: number) => [`$${val.toFixed(2)}`, ""]} />
                   <Legend />
                   <Line type="monotone" dataKey="revenue" name="Revenue" stroke="#f43f5e" strokeWidth={2} dot={{ fill: "#f43f5e" }} />
-                  <Line type="monotone" dataKey="profit"  name="Profit"  stroke="#22c55e" strokeWidth={2} dot={{ fill: "#22c55e" }} />
                 </LineChart>
               </ResponsiveContainer>
             )}
@@ -358,7 +341,7 @@ export default function OwnerDashboardPage() {
 
         {/* Bottom row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Top items by profit */}
+          {/* Top items by revenue */}
           <div className="bg-white rounded-2xl border border-rose-100 shadow-sm p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-5">{t("owner.topItems")}</h2>
             {data.topItems.length === 0 ? (
@@ -373,16 +356,8 @@ export default function OwnerDashboardPage() {
                         <span className="font-medium text-gray-900">{item.name}</span>
                         <span className="text-gray-400 text-xs">{item.totalQty} {t("owner.sold")}</span>
                       </div>
-                      <div className="flex gap-4 text-xs text-gray-500 mb-1.5">
-                        <span>{t("analytics.totalRevenue")}: <span className="text-gray-700 font-medium">${item.revenue.toFixed(2)}</span></span>
-                        <span>{t("owner.cost")}: <span className="text-gray-700 font-medium">${item.cost.toFixed(2)}</span></span>
-                        <span>{t("owner.profit")}: <span className="text-green-600 font-semibold">${item.profit.toFixed(2)}</span></span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="flex-1 h-2 bg-rose-100 rounded-full overflow-hidden">
-                          <div className="h-full bg-green-400 rounded-full" style={{ width: `${item.margin}%` }} />
-                        </div>
-                        <span className="text-xs font-semibold text-green-600 w-10 text-end">{item.margin}%</span>
+                      <div className="text-xs text-gray-500">
+                        {t("analytics.totalSales")}: <span className="text-gray-700 font-medium">${item.revenue.toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
@@ -412,18 +387,14 @@ export default function OwnerDashboardPage() {
             {!isDateFiltered && (
               <div className="mt-6 pt-5 border-t border-rose-100">
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">This Month</p>
-                <div className="grid grid-cols-5 gap-2">
+                <div className="grid grid-cols-4 gap-2">
                   <div className="bg-rose-50 rounded-xl p-3 text-center">
                     <p className="text-lg font-bold text-rose-600">{data.monthOrders}</p>
                     <p className="text-xs text-gray-500">Orders</p>
                   </div>
                   <div className="bg-rose-50 rounded-xl p-3 text-center">
                     <p className="text-lg font-bold text-rose-600">${data.monthRevenue.toFixed(0)}</p>
-                    <p className="text-xs text-gray-500">Revenue</p>
-                  </div>
-                  <div className="bg-green-50 rounded-xl p-3 text-center">
-                    <p className="text-lg font-bold text-green-600">${data.monthProfit.toFixed(0)}</p>
-                    <p className="text-xs text-gray-500">Est. Profit</p>
+                    <p className="text-xs text-gray-500">{t("analytics.totalSales")}</p>
                   </div>
                   <div className="bg-amber-50 rounded-xl p-3 text-center">
                     <p className="text-lg font-bold text-amber-600">${data.monthPurchases.toFixed(0)}</p>

@@ -65,16 +65,13 @@ export async function GET(req: NextRequest) {
     prisma.user.count({ where: { role: "CLIENT" } }),
     prisma.user.count({ where: { role: "CLIENT", createdAt: { gte: thisMonthStart } } }),
 
-    // Revenue + profit per day for selected range
-    prisma.$queryRaw<{ day: string; orders: bigint; revenue: number; profit: number }[]>`
+    // Revenue per day for selected range
+    prisma.$queryRaw<{ day: string; orders: bigint; revenue: number }[]>`
       SELECT
         DATE(o."createdAt") as day,
         COUNT(DISTINCT o.id) as orders,
-        SUM(DISTINCT o.total) as revenue,
-        SUM((oi."unitPrice" - m."costPrice") * oi.quantity) as profit
+        SUM(DISTINCT o.total) as revenue
       FROM "Order" o
-      JOIN "OrderItem" oi ON oi."orderId" = o.id
-      JOIN "MenuItem" m ON oi."menuItemId" = m.id
       WHERE o."createdAt" >= ${recentFrom}
         ${recentToSql}
         AND o.status::text != 'CANCELLED'
@@ -83,14 +80,12 @@ export async function GET(req: NextRequest) {
       ORDER BY day ASC
     `,
 
-    // Top 5 items by profit
-    prisma.$queryRaw<{ name: string; total_qty: bigint; revenue: number; cost: number; profit: number }[]>`
+    // Top 5 items by revenue
+    prisma.$queryRaw<{ name: string; total_qty: bigint; revenue: number }[]>`
       SELECT
         m.name,
         SUM(oi.quantity) as total_qty,
-        SUM(oi."unitPrice" * oi.quantity) as revenue,
-        SUM(m."costPrice" * oi.quantity) as cost,
-        SUM((oi."unitPrice" - m."costPrice") * oi.quantity) as profit
+        SUM(oi."unitPrice" * oi.quantity) as revenue
       FROM "OrderItem" oi
       JOIN "MenuItem" m ON oi."menuItemId" = m.id
       JOIN "Order" o ON oi."orderId" = o.id
@@ -99,33 +94,12 @@ export async function GET(req: NextRequest) {
         ${toSql}
         ${clientSql}
       GROUP BY m.name
-      ORDER BY profit DESC
+      ORDER BY revenue DESC
       LIMIT 5
     `,
 
     prisma.order.aggregate({ where: filteredWhere, _sum: { total: true } }),
   ]);
-
-  const profitAgg = await prisma.$queryRaw<{ profit: number }[]>`
-    SELECT SUM((oi."unitPrice" - m."costPrice") * oi.quantity) as profit
-    FROM "OrderItem" oi
-    JOIN "MenuItem" m ON oi."menuItemId" = m.id
-    JOIN "Order" o ON oi."orderId" = o.id
-    WHERE o.status::text != 'CANCELLED'
-      ${fromSql}
-      ${toSql}
-      ${clientSql}
-  `;
-
-  const monthProfitAgg = await prisma.$queryRaw<{ profit: number }[]>`
-    SELECT SUM((oi."unitPrice" - m."costPrice") * oi.quantity) as profit
-    FROM "OrderItem" oi
-    JOIN "MenuItem" m ON oi."menuItemId" = m.id
-    JOIN "Order" o ON oi."orderId" = o.id
-    WHERE o.status::text != 'CANCELLED'
-      AND o."createdAt" >= ${thisMonthStart}
-      ${clientId ? Prisma.sql`AND o."clientId" = ${clientId}` : Prisma.sql``}
-  `;
 
   const [purchasesAgg, monthPurchasesAgg] = await Promise.all([
     prisma.purchase.aggregate({
@@ -141,10 +115,7 @@ export async function GET(req: NextRequest) {
   ]);
 
   const totalRevenue = totalAgg._sum.total ?? 0;
-  const totalProfit = Number(profitAgg[0]?.profit ?? 0);
-  const monthProfit = Number(monthProfitAgg[0]?.profit ?? 0);
   const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
-  const avgProfit = totalOrders > 0 ? totalProfit / totalOrders : 0;
   const totalPurchases = Number(purchasesAgg._sum.amount ?? 0);
   const monthPurchases = Number(monthPurchasesAgg._sum.amount ?? 0);
   const actualProfit = totalRevenue - totalPurchases;
@@ -152,15 +123,12 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({
     totalRevenue,
-    totalProfit,
     totalOrders,
     totalClients,
     monthRevenue: monthAgg._sum.total ?? 0,
-    monthProfit,
     monthOrders: monthAgg._count,
     todayOrders,
     avgOrderValue,
-    avgProfit,
     newClientsThisMonth,
     totalPurchases,
     monthPurchases,
@@ -174,17 +142,11 @@ export async function GET(req: NextRequest) {
       day: new Date(r.day).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
       orders: Number(r.orders),
       revenue: Number(r.revenue),
-      profit: Number(r.profit),
     })),
     topItems: topItems.map((t) => ({
       name: t.name,
       totalQty: Number(t.total_qty),
       revenue: Number(t.revenue),
-      cost: Number(t.cost),
-      profit: Number(t.profit),
-      margin: Number(t.revenue) > 0
-        ? Math.round((Number(t.profit) / Number(t.revenue)) * 100)
-        : 0,
     })),
   });
 }

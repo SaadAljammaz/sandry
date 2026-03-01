@@ -100,32 +100,6 @@ function LoginForm() {
         </button>
       </form>
 
-      <div className="mt-6 pt-5 border-t border-rose-50">
-        <p className="text-xs text-gray-400 text-center mb-2">{t("login.demoLabel")}</p>
-        <div className="grid grid-cols-3 gap-2 text-xs">
-          <button
-            type="button"
-            onClick={() => { setUsername("Sandry Owner"); setPassword("owner123"); }}
-            className="px-3 py-2 rounded-lg bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100 transition-colors text-center"
-          >
-            👑 Owner
-          </button>
-          <button
-            type="button"
-            onClick={() => { setUsername("Sandry Chef"); setPassword("chef123"); }}
-            className="px-3 py-2 rounded-lg bg-amber-50 text-amber-700 border border-amber-100 hover:bg-amber-100 transition-colors text-center"
-          >
-            {t("login.chefDemo")}
-          </button>
-          <button
-            type="button"
-            onClick={() => { setUsername("Sarah Johnson"); setPassword("client123"); }}
-            className="px-3 py-2 rounded-lg bg-rose-50 text-rose-700 border border-rose-100 hover:bg-rose-100 transition-colors text-center"
-          >
-            {t("login.clientDemo")}
-          </button>
-        </div>
-      </div>
     </div>
   );
 }

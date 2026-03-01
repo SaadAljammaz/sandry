@@ -19,7 +19,6 @@ const EMPTY_FORM = {
   name: "",
   description: "",
   price: "",
-  costPrice: "",
   category: "Cake",
   imageUrl: "",
   available: true,
@@ -59,7 +58,6 @@ export default function ChefMenuPage() {
       name: item.name,
       description: item.description ?? "",
       price: String(item.price),
-      costPrice: String((item as MenuItem & { costPrice?: number }).costPrice ?? ""),
       category: item.category,
       imageUrl: item.imageUrl ?? "",
       available: item.available,
@@ -79,7 +77,6 @@ export default function ChefMenuPage() {
       name: form.name,
       description: form.description || null,
       price: parseFloat(form.price),
-      costPrice: form.costPrice ? parseFloat(form.costPrice) : 0,
       category: form.category,
       imageUrl: form.imageUrl || null,
       available: form.available,
@@ -265,19 +262,6 @@ export default function ChefMenuPage() {
                     onChange={(e) => setForm({ ...form, description: e.target.value })}
                     placeholder={t("chefMenu.descPlaceholder")}
                     className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300 resize-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">{t("chefMenu.costPrice")}</label>
-                  <input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={form.costPrice}
-                    onChange={(e) => setForm({ ...form, costPrice: e.target.value })}
-                    placeholder={t("chefMenu.costPricePlaceholder")}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300"
                   />
                 </div>
 

@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { name, description, price, costPrice, category, imageUrl, available } = await req.json();
+  const { name, description, price, category, imageUrl, available } = await req.json();
 
   if (!name || !price || !category) {
     return NextResponse.json({ error: "name, price, and category are required" }, { status: 400 });
@@ -25,7 +25,6 @@ export async function POST(req: NextRequest) {
   const item = await prisma.menuItem.create({
     data: {
       name, description, price: Number(price),
-      costPrice: costPrice !== undefined ? Number(costPrice) : 0,
       category, imageUrl, available: available ?? true,
     },
   });

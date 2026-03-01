@@ -21,7 +21,6 @@ export async function PUT(
       name: data.name,
       description: data.description,
       price: data.price !== undefined ? Number(data.price) : undefined,
-      costPrice: data.costPrice !== undefined ? Number(data.costPrice) : undefined,
       category: data.category,
       imageUrl: data.imageUrl,
       available: data.available,
