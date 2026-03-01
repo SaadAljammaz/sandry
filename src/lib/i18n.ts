@@ -21,6 +21,7 @@ const en = {
   "nav.users": "Users",
   "nav.purchases": "Purchases",
   "nav.ownerPurchases": "Purchases",
+  "nav.guide": "How to Use",
 
   // Landing
   "landing.badge": "✨ Handcrafted with love",
@@ -267,6 +268,7 @@ const ar: { [K in keyof typeof en]: string } = {
   "nav.users": "المستخدمون",
   "nav.purchases": "المشتريات",
   "nav.ownerPurchases": "المشتريات",
+  "nav.guide": "دليل الاستخدام",
 
   // Landing
   "landing.badge": "✨ مصنوع بحب",

@@ -27,6 +27,7 @@ export function Navbar({ onCartOpen }: { onCartOpen?: () => void }) {
           { href: "/owner/dashboard", label: t("nav.ownerDash") },
           { href: "/owner/users", label: t("nav.users") },
           { href: "/owner/purchases", label: t("nav.ownerPurchases") },
+          { href: "/owner/guide", label: t("nav.guide") },
         ]
       : isChef
       ? [
