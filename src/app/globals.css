@@ -43,6 +43,12 @@
   }
 }
 
+/* Sunroll brand font must never be overridden, even in RTL mode */
+[dir="rtl"] .font-sunroll,
+.font-sunroll {
+  font-family: 'Sunroll', Georgia, serif !important;
+}
+
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;

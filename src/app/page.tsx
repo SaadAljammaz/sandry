@@ -34,15 +34,9 @@ export default function HomePage() {
           <div className="flex items-center gap-3">
             <Link
               href="/auth/login"
-              className="text-sm text-gray-600 hover:text-rose-600 transition-colors"
-            >
-              {t("nav.signIn")}
-            </Link>
-            <Link
-              href="/auth/login"
               className="text-sm px-4 py-2 bg-rose-500 text-white rounded-xl hover:bg-rose-600 transition-colors font-medium"
             >
-              {t("landing.getStarted")}
+              {t("nav.signIn")}
             </Link>
             <button
               onClick={() => setLang(lang === "en" ? "ar" : "en")}
@@ -66,16 +60,10 @@ export default function HomePage() {
         <p className="mt-6 text-lg text-gray-500 max-w-xl mx-auto">
           {t("landing.heroSub")}
         </p>
-        <div className="mt-10 flex items-center justify-center gap-4 flex-wrap">
+        <div className="mt-10">
           <Link
             href="/auth/login"
-            className="px-8 py-3.5 bg-rose-500 text-white rounded-2xl font-semibold text-base hover:bg-rose-600 transition-colors shadow-lg shadow-rose-200"
-          >
-            {t("landing.orderNow")}
-          </Link>
-          <Link
-            href="/auth/login"
-            className="px-8 py-3.5 bg-white text-rose-600 border border-rose-200 rounded-2xl font-semibold text-base hover:bg-rose-50 transition-colors"
+            className="px-8 py-3.5 bg-rose-500 text-white rounded-2xl font-semibold text-base hover:bg-rose-600 transition-colors shadow-lg shadow-rose-200 inline-block"
           >
             {t("nav.signIn")}
           </Link>
@@ -125,20 +113,6 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
-
-      {/* CTA */}
-      <section className="max-w-3xl mx-auto px-6 py-20 text-center">
-        <h2 className="text-4xl font-bold text-gray-900 mb-4">
-          {t("landing.ctaTitle")}
-        </h2>
-        <p className="text-gray-500 mb-8">{t("landing.ctaSub")}</p>
-        <Link
-          href="/auth/login"
-          className="px-10 py-4 bg-rose-500 text-white rounded-2xl font-semibold text-lg hover:bg-rose-600 transition-colors shadow-lg shadow-rose-200 inline-block"
-        >
-          {t("landing.createAccount")}
-        </Link>
       </section>
 
       {/* Footer */}

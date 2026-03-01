@@ -1,9 +1,10 @@
 "use client";
 
 import { Suspense, useState } from "react";
+import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useT } from "@/lib/i18n";
+import { useT, useLang } from "@/lib/i18n";
 
 function LoginForm() {
   const router = useRouter();
@@ -106,8 +107,28 @@ function LoginForm() {
 
 function LoginPageInner() {
   const t = useT();
+  const { lang, setLang } = useLang();
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-50 to-amber-50 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-amber-50">
+      {/* Navbar */}
+      <nav className="bg-white/80 backdrop-blur-sm border-b border-rose-100 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <span className="text-2xl font-sunroll font-bold text-rose-600">Sandry</span>
+            <span className="hidden sm:inline ms-2 text-xs text-amber-600 font-medium uppercase tracking-widest">
+              {t("brand.tagline")}
+            </span>
+          </Link>
+          <button
+            onClick={() => setLang(lang === "en" ? "ar" : "en")}
+            className="text-xs font-bold px-2.5 py-1.5 rounded-lg border border-rose-200 text-rose-600 hover:bg-rose-50 transition-colors"
+          >
+            {lang === "en" ? "ع" : "EN"}
+          </button>
+        </div>
+      </nav>
+
+      <div className="flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
@@ -120,6 +141,7 @@ function LoginPageInner() {
         <Suspense fallback={<div className="bg-white rounded-3xl shadow-xl p-8 animate-pulse h-96" />}>
           <LoginForm />
         </Suspense>
+      </div>
       </div>
     </div>
   );
