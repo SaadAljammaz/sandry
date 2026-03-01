@@ -6,34 +6,6 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("🌱 Seeding database...");
 
-  // Create chef account
-  // const chefPassword = await bcrypt.hash("chef123", 10);
-  // const chef = await prisma.user.upsert({
-  //   where: { email: "chef@sandry.com" },
-  //   update: {},
-  //   create: {
-  //     name: "Sandry Chef",
-  //     email: "chef@sandry.com",
-  //     password: chefPassword,
-  //     role: Role.CHEF,
-  //   },
-  // });
-  // console.log("✅ Chef created:", chef.email);
-
-  // Create a sample client
-  // const clientPassword = await bcrypt.hash("client123", 10);
-  // const client = await prisma.user.upsert({
-  //   where: { email: "client@example.com" },
-  //   update: {},
-  //   create: {
-  //     name: "Sarah Johnson",
-  //     email: "client@example.com",
-  //     password: clientPassword,
-  //     role: Role.CLIENT,
-  //   },
-  // });
-  // console.log("✅ Sample client created:", client.email);
-
   // Create owner account (credentials from .env, with fallback defaults for dev)
   const ownerUsername = process.env.OWNER_USERNAME ?? "Sandry Owner";
   const ownerEmail = process.env.OWNER_EMAIL ?? "owner@sandry.com";
@@ -170,8 +142,6 @@ async function main() {
   console.log("\n🎉 Seeding complete!");
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
   console.log(`Owner login:  ${ownerEmail} / (your OWNER_PASSWORD)`);
-  // console.log("Chef login:   chef@sandry.com / chef123");
-  // console.log("Client login: client@example.com / client123");
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 }
 
