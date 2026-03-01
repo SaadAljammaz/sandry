@@ -1,8 +1,8 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useT, useLang } from "@/lib/i18n";
 
@@ -106,8 +106,21 @@ function LoginForm() {
 }
 
 function LoginPageInner() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const t = useT();
   const { lang, setLang } = useLang();
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+    const role = session?.user?.role;
+    if (role === "OWNER") router.replace("/owner/dashboard");
+    else if (role === "CHEF") router.replace("/chef/dashboard");
+    else router.replace("/client/menu");
+  }, [status, session, router]);
+
+  if (status === "loading" || status === "authenticated") return null;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 to-amber-50">
       {/* Navbar */}

@@ -1,11 +1,26 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useT, useLang } from "@/lib/i18n";
 
 export default function HomePage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const t = useT();
   const { lang, setLang } = useLang();
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+    const role = session?.user?.role;
+    if (role === "OWNER") router.replace("/owner/dashboard");
+    else if (role === "CHEF") router.replace("/chef/dashboard");
+    else router.replace("/client/menu");
+  }, [status, session, router]);
+
+  if (status === "loading" || status === "authenticated") return null;
 
   const features = [
     { icon: "🍰", titleKey: "feat.sweets.title" as const, descKey: "feat.sweets.desc" as const },
