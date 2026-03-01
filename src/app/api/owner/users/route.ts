@@ -16,7 +16,6 @@ export async function GET() {
     select: {
       id: true,
       name: true,
-      email: true,
       role: true,
       active: true,
       createdAt: true,
@@ -34,9 +33,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { name, email, password, role } = await req.json();
+  const { name, password, role } = await req.json();
 
-  if (!name || !email || !password || !role) {
+  if (!name || !password || !role) {
     return NextResponse.json({ error: "All fields are required" }, { status: 400 });
   }
 
@@ -48,15 +47,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Password must be at least 6 characters" }, { status: 400 });
   }
 
-  const existing = await prisma.user.findUnique({ where: { email } });
+  const existing = await prisma.user.findUnique({ where: { name } });
   if (existing) {
-    return NextResponse.json({ error: "Email already in use" }, { status: 409 });
+    return NextResponse.json({ error: "Username already in use" }, { status: 409 });
   }
 
   const hashed = await bcrypt.hash(password, 10);
   const user = await prisma.user.create({
-    data: { name, email, password: hashed, role: role as Role },
-    select: { id: true, name: true, email: true, role: true },
+    data: { name, password: hashed, role: role as Role },
+    select: { id: true, name: true, role: true },
   });
 
   return NextResponse.json(user, { status: 201 });

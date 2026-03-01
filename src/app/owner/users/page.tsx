@@ -8,7 +8,6 @@ import { useT } from "@/lib/i18n";
 interface UserRow {
   id: string;
   name: string;
-  email: string;
   role: "CHEF" | "CLIENT" | "OWNER";
   active: boolean;
   createdAt: string;
@@ -21,7 +20,7 @@ const ROLE_COLORS: Record<string, string> = {
   CLIENT: "bg-gray-100 text-gray-600",
 };
 
-const EMPTY_FORM = { name: "", email: "", password: "", role: "CLIENT" as "CHEF" | "CLIENT" };
+const EMPTY_FORM = { name: "", password: "", role: "CLIENT" as "CHEF" | "CLIENT" };
 
 export default function OwnerUsersPage() {
   const { data: session } = useSession();
@@ -84,7 +83,7 @@ export default function OwnerUsersPage() {
     setCreating(false);
 
     if (!res.ok) {
-      setFormError(res.status === 409 ? t("owner.emailTaken") : data.error ?? "Failed");
+      setFormError(data.error ?? "Failed");
       return;
     }
 
@@ -124,7 +123,6 @@ export default function OwnerUsersPage() {
               <thead>
                 <tr className="border-b border-rose-100 bg-rose-50/60">
                   <th className="text-start px-5 py-3 font-semibold text-gray-600">Name</th>
-                  <th className="text-start px-5 py-3 font-semibold text-gray-600 hidden sm:table-cell">Email</th>
                   <th className="text-start px-5 py-3 font-semibold text-gray-600">Role</th>
                   <th className="text-start px-5 py-3 font-semibold text-gray-600 hidden md:table-cell">Status</th>
                   <th className="text-start px-5 py-3 font-semibold text-gray-600 hidden lg:table-cell">Orders</th>
@@ -151,7 +149,6 @@ export default function OwnerUsersPage() {
                           <span className="ms-2 text-xs text-rose-500">(you)</span>
                         )}
                       </td>
-                      <td className="px-5 py-4 text-gray-500 hidden sm:table-cell">{user.email}</td>
                       <td className="px-5 py-4">
                         <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${ROLE_COLORS[user.role]}`}>
                           {user.role}
@@ -230,20 +227,6 @@ export default function OwnerUsersPage() {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   placeholder="username"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {t("owner.userEmail")}
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  placeholder="user@example.com"
                   className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent"
                 />
               </div>

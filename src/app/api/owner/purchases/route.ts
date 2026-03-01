@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
       where,
       orderBy: { purchasedAt: "desc" },
       include: {
-        chef: { select: { id: true, name: true, email: true } },
+        chef: { select: { id: true, name: true } },
       },
     }),
     prisma.purchase.aggregate({ where, _sum: { amount: true } }),

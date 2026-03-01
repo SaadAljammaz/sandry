@@ -16,7 +16,7 @@ interface Purchase {
   amount: number;
   purchasedAt: string;
   receiptImage: string | null;
-  chef: { id: string; name: string; email: string };
+  chef: { id: string; name: string };
 }
 
 export default function OwnerPurchasesPage() {

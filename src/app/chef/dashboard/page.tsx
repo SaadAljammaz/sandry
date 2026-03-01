@@ -17,7 +17,7 @@ interface Order {
   status: string;
   total: number;
   createdAt: string;
-  client: { name: string; email: string; deletedAt: string | null };
+  client: { name: string; deletedAt: string | null };
   items: OrderItem[];
 }
 

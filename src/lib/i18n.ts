@@ -69,7 +69,7 @@ const en = {
   "login.demoLabel": "Demo accounts",
   "login.chefDemo": "👨‍🍳 Chef account",
   "login.clientDemo": "👤 Client account",
-  "login.error": "Invalid email or password",
+  "login.error": "Invalid username or password",
 
   // Auth – Register
   "register.title": "Create an account",
@@ -184,12 +184,10 @@ const en = {
   "owner.createUser": "Create User",
   "owner.createUserSub": "Add a new chef or client account",
   "owner.userName": "Full Name",
-  "owner.userEmail": "Email Address",
   "owner.userPassword": "Password",
   "owner.userRole": "Role",
   "owner.creating": "Creating...",
   "owner.create": "Create Account",
-  "owner.emailTaken": "Email already in use",
   "owner.filterClient": "Client",
   "owner.filterAllClients": "All clients",
   "owner.filterAllTime": "All time",
@@ -316,7 +314,7 @@ const ar: { [K in keyof typeof en]: string } = {
   "login.demoLabel": "حسابات تجريبية",
   "login.chefDemo": "👨‍🍳 حساب الشيف",
   "login.clientDemo": "👤 حساب العميل",
-  "login.error": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+  "login.error": "اسم المستخدم أو كلمة المرور غير صحيحة",
 
   // Auth – Register
   "register.title": "إنشاء حساب",
@@ -431,12 +429,10 @@ const ar: { [K in keyof typeof en]: string } = {
   "owner.createUser": "إنشاء مستخدم",
   "owner.createUserSub": "إضافة حساب طاهٍ أو عميل جديد",
   "owner.userName": "الاسم الكامل",
-  "owner.userEmail": "البريد الإلكتروني",
   "owner.userPassword": "كلمة المرور",
   "owner.userRole": "الدور",
   "owner.creating": "جارٍ الإنشاء...",
   "owner.create": "إنشاء الحساب",
-  "owner.emailTaken": "البريد الإلكتروني مستخدم بالفعل",
   "owner.filterClient": "العميل",
   "owner.filterAllClients": "جميع العملاء",
   "owner.filterAllTime": "كل الوقت",

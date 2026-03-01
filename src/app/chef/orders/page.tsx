@@ -19,7 +19,7 @@ interface Order {
   notes?: string | null;
   createdAt: string;
   updatedAt: string;
-  client: { id: string; name: string; email: string; deletedAt: string | null };
+  client: { id: string; name: string; deletedAt: string | null };
   items: OrderItem[];
 }
 
@@ -121,7 +121,6 @@ export default function ChefOrdersPage() {
                         <span className="ms-2 text-xs text-gray-400 font-normal">(Deleted)</span>
                       )}
                     </p>
-                    <p className="text-xs text-gray-400 mt-0.5">{order.client.email}</p>
                     <p className="text-xs text-gray-400 mt-0.5">
                       {new Date(order.createdAt).toLocaleString()}
                     </p>

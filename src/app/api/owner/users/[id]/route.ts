@@ -45,7 +45,7 @@ export async function PATCH(
   const updated = await prisma.user.update({
     where: { id },
     data,
-    select: { id: true, name: true, email: true, role: true, active: true },
+    select: { id: true, name: true, role: true, active: true },
   });
 
   return NextResponse.json(updated);
@@ -75,10 +75,17 @@ export async function DELETE(
     return NextResponse.json({ error: "Cannot delete owner accounts" }, { status: 403 });
   }
 
-  // Soft-delete: keep orders and purchases intact for history
+  // Soft-delete: keep orders and purchases intact for history.
+  // Free up the unique username so it can be reused for new accounts.
   await prisma.$transaction([
     prisma.cartItem.deleteMany({ where: { userId: id } }),
-    prisma.user.update({ where: { id }, data: { deletedAt: new Date() } }),
+    prisma.user.update({
+      where: { id },
+      data: {
+        deletedAt: new Date(),
+        name: `${target.name}__deleted__${Date.now()}`,
+      },
+    }),
   ]);
 
   return NextResponse.json({ ok: true });

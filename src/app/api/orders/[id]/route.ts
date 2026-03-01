@@ -24,7 +24,7 @@ export async function PUT(
     where: { id },
     data: { status },
     include: {
-      client: { select: { id: true, name: true, email: true, deletedAt: true } },
+      client: { select: { id: true, name: true, deletedAt: true } },
       items: { include: { menuItem: { select: { id: true, name: true } } } },
     },
   });

@@ -8,19 +8,17 @@ async function main() {
 
   // Create owner account (credentials from .env, with fallback defaults for dev)
   const ownerUsername = process.env.OWNER_USERNAME ?? "Sandry Owner";
-  const ownerEmail = process.env.OWNER_EMAIL ?? "owner@sandry.com";
   const ownerPassword = await bcrypt.hash(process.env.OWNER_PASSWORD ?? "owner123", 10);
   const owner = await prisma.user.upsert({
-    where: { email: ownerEmail },
+    where: { name: ownerUsername },
     update: {},
     create: {
       name: ownerUsername,
-      email: ownerEmail,
       password: ownerPassword,
       role: Role.OWNER,
     },
   });
-  console.log("✅ Owner created:", owner.email);
+  console.log("✅ Owner created:", owner.name);
 
   // Create menu items
   const menuItems = [
@@ -141,7 +139,7 @@ async function main() {
 
   console.log("\n🎉 Seeding complete!");
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-  console.log(`Owner login:  ${ownerEmail} / (your OWNER_PASSWORD)`);
+  console.log(`Owner login:  ${ownerUsername} / (your OWNER_PASSWORD)`);
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 }
 
