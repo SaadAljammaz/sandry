@@ -47,7 +47,7 @@ export default function ChefAnalyticsPage() {
       <div className="min-h-screen bg-rose-50">
         <Navbar />
         <main className="max-w-7xl mx-auto px-6 py-10">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="bg-white rounded-2xl h-28 animate-pulse" />
             ))}
@@ -72,7 +72,7 @@ export default function ChefAnalyticsPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">{t("analytics.title")}</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold text-gray-900">{t("analytics.title")}</h1>
           <p className="text-gray-500 mt-1">{t("analytics.sub")}</p>
         </div>
 

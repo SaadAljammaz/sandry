@@ -90,14 +90,14 @@ export default function ClientOrdersPage() {
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">{t("orders.title")}</h1>
+            <h1 className="text-2xl sm:text-4xl font-bold text-gray-900">{t("orders.title")}</h1>
             <p className="text-gray-500 mt-1">{t("orders.sub")}</p>
           </div>
           <Link
             href="/client/menu"
-            className="px-4 py-2 bg-rose-500 text-white rounded-xl text-sm font-medium hover:bg-rose-600 transition-colors"
+            className="self-start sm:self-auto px-4 py-2 bg-rose-500 text-white rounded-xl text-sm font-medium hover:bg-rose-600 transition-colors"
           >
             {t("orders.newOrder")}
           </Link>

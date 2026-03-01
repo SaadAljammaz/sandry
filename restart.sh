@@ -9,4 +9,4 @@ echo "Regenerating Prisma client..."
 npx prisma generate
 
 echo "Starting dev server..."
-npm run dev
+npm run dev -- --hostname 0.0.0.0

@@ -118,14 +118,14 @@ export default function ChefMenuPage() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">{t("chefMenu.title")}</h1>
+            <h1 className="text-2xl sm:text-4xl font-bold text-gray-900">{t("chefMenu.title")}</h1>
             <p className="text-gray-500 mt-1">{t("chefMenu.sub")}</p>
           </div>
           <button
             onClick={openAdd}
-            className="px-5 py-2.5 bg-rose-500 text-white rounded-xl font-medium hover:bg-rose-600 transition-colors flex items-center gap-2"
+            className="self-start sm:self-auto px-5 py-2.5 bg-rose-500 text-white rounded-xl font-medium hover:bg-rose-600 transition-colors flex items-center gap-2"
           >
             <span className="text-lg leading-none">+</span> {t("chefMenu.addItem")}
           </button>
@@ -203,7 +203,7 @@ export default function ChefMenuPage() {
       {/* Modal */}
       {modalOpen && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl w-full max-w-lg shadow-2xl">
+          <div className="bg-white rounded-3xl w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between p-6 border-b border-rose-100">
               <h2 className="text-xl font-semibold text-gray-900">
                 {editItem ? t("chefMenu.editTitle") : t("chefMenu.addTitle")}

@@ -69,7 +69,7 @@ export default function ChefDashboardPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">{t("dash.title")}</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold text-gray-900">{t("dash.title")}</h1>
           <p className="text-gray-500 mt-1">{t("dash.sub")}</p>
         </div>
 
@@ -126,36 +126,38 @@ export default function ChefDashboardPage() {
           ) : (
             <div className="divide-y divide-rose-50">
               {orders.map((order) => (
-                <div key={order.id} className="px-6 py-4 flex items-center gap-4">
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 truncate">
-                      {order.client.name}
-                      {order.client.deletedAt && (
-                        <span className="ms-1 text-xs text-gray-400 font-normal">(Deleted)</span>
-                      )}
-                    </p>
-                    <p className="text-xs text-gray-400">
-                      {order.items.map((i) => `${i.menuItem.name} ×${i.quantity}`).join(", ")}
-                    </p>
+                <div key={order.id} className="px-4 sm:px-6 py-4">
+                  <div className="flex items-start gap-3 mb-2">
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-gray-900 truncate">
+                        {order.client.name}
+                        {order.client.deletedAt && (
+                          <span className="ms-1 text-xs text-gray-400 font-normal">(Deleted)</span>
+                        )}
+                      </p>
+                      <p className="text-xs text-gray-400 truncate">
+                        {order.items.map((i) => `${i.menuItem.name} ×${i.quantity}`).join(", ")}
+                      </p>
+                    </div>
+                    <div className="text-end shrink-0">
+                      <p className="font-bold text-rose-600">${order.total.toFixed(2)}</p>
+                      <p className="text-xs text-gray-400">
+                        {new Date(order.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-end shrink-0">
-                    <p className="font-bold text-rose-600">${order.total.toFixed(2)}</p>
-                    <p className="text-xs text-gray-400">
-                      {new Date(order.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                    </p>
-                  </div>
-                  <div className="shrink-0">
+                  <div className="flex items-center justify-between gap-2">
                     <StatusBadge status={order.status} />
+                    <select
+                      value={order.status}
+                      onChange={(e) => updateStatus(order.id, e.target.value)}
+                      className="text-sm border border-rose-200 rounded-lg px-2 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-rose-300"
+                    >
+                      {STATUS_OPTIONS.map((s) => (
+                        <option key={s} value={s}>{s.replace("_", " ")}</option>
+                      ))}
+                    </select>
                   </div>
-                  <select
-                    value={order.status}
-                    onChange={(e) => updateStatus(order.id, e.target.value)}
-                    className="text-sm border border-rose-200 rounded-lg px-2 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-rose-300 shrink-0"
-                  >
-                    {STATUS_OPTIONS.map((s) => (
-                      <option key={s} value={s}>{s.replace("_", " ")}</option>
-                    ))}
-                  </select>
                 </div>
               ))}
             </div>

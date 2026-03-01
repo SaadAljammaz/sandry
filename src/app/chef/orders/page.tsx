@@ -68,7 +68,7 @@ export default function ChefOrdersPage() {
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">{t("chefOrders.title")}</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold text-gray-900">{t("chefOrders.title")}</h1>
           <p className="text-gray-500 mt-1">{t("chefOrders.sub")}</p>
         </div>
 

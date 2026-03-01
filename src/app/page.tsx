@@ -55,11 +55,11 @@ export default function HomePage() {
       </nav>
 
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-6 py-20 text-center">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20 text-center">
         <div className="inline-block bg-rose-100 text-rose-700 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wide">
           {t("landing.badge")}
         </div>
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">
           {t("landing.hero1")} <br />
           <span className="text-rose-500">{t("landing.hero2")}</span> {t("landing.hero3")}
         </h1>
@@ -82,7 +82,7 @@ export default function HomePage() {
         </div>
 
         {/* Floating emoji decorations */}
-        <div className="mt-16 text-5xl flex justify-center gap-6 select-none">
+        <div className="mt-16 text-4xl sm:text-5xl flex justify-center gap-3 sm:gap-6 select-none">
           <span className="animate-bounce" style={{ animationDelay: "0ms" }}>🍰</span>
           <span className="animate-bounce" style={{ animationDelay: "150ms" }}>🥐</span>
           <span className="animate-bounce" style={{ animationDelay: "300ms" }}>🍩</span>
@@ -92,7 +92,7 @@ export default function HomePage() {
       </section>
 
       {/* Features */}
-      <section className="max-w-7xl mx-auto px-6 py-16">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
           {t("landing.whySandry")}
         </h2>
@@ -112,7 +112,7 @@ export default function HomePage() {
 
       {/* Testimonials */}
       <section className="bg-rose-500 py-16">
-        <div className="max-w-5xl mx-auto px-6">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <h2 className="text-3xl font-bold text-center text-white mb-12">
             {t("landing.testimonials")}
           </h2>
