@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useCart } from "@/lib/cart";
 import { useT } from "@/lib/i18n";
 
@@ -34,12 +33,10 @@ export function MenuCard({
       {/* Image */}
       <div className="relative h-48 bg-rose-50">
         {imageUrl ? (
-          <Image
+          <img
             src={imageUrl}
             alt={name}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 33vw"
+            className="w-full h-full object-cover"
           />
         ) : (
           <div className="flex items-center justify-center h-full text-4xl">

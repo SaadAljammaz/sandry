@@ -1,9 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { useT } from "@/lib/i18n";
+
+function compressImage(file: File): Promise<string> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new window.Image();
+      img.onload = () => {
+        const MAX = 1200;
+        let { width, height } = img;
+        if (width > MAX) { height = Math.round((height * MAX) / width); width = MAX; }
+        const canvas = document.createElement("canvas");
+        canvas.width = width; canvas.height = height;
+        canvas.getContext("2d")!.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", 0.75));
+      };
+      img.src = e.target!.result as string;
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
 interface MenuItem {
   id: string;
@@ -34,6 +53,8 @@ export default function ChefMenuPage() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const t = useT();
 
   const fetchItems = async () => {
@@ -48,6 +69,7 @@ export default function ChefMenuPage() {
   const openAdd = () => {
     setEditItem(null);
     setForm(EMPTY_FORM);
+    setImagePreview(null);
     setError("");
     setModalOpen(true);
   };
@@ -62,6 +84,7 @@ export default function ChefMenuPage() {
       imageUrl: item.imageUrl ?? "",
       available: item.available,
     });
+    setImagePreview(item.imageUrl ?? null);
     setError("");
     setModalOpen(true);
   };
@@ -148,12 +171,10 @@ export default function ChefMenuPage() {
                 {/* Image */}
                 <div className="relative h-44 bg-rose-50">
                   {item.imageUrl ? (
-                    <Image
+                    <img
                       src={item.imageUrl}
                       alt={item.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 25vw"
+                      className="w-full h-full object-cover"
                     />
                   ) : (
                     <div className="flex items-center justify-center h-full text-4xl">🍰</div>
@@ -268,11 +289,52 @@ export default function ChefMenuPage() {
                 <div className="col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">{t("chefMenu.imageUrl")}</label>
                   <input
-                    value={form.imageUrl}
-                    onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
-                    placeholder="https://..."
-                    className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300"
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const compressed = await compressImage(file);
+                      setImagePreview(compressed);
+                      setForm((f) => ({ ...f, imageUrl: compressed }));
+                    }}
                   />
+                  {imagePreview ? (
+                    <div className="relative w-full h-40 rounded-xl overflow-hidden border border-gray-200">
+                      <img src={imagePreview} alt="preview" className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setImagePreview(null);
+                          setForm((f) => ({ ...f, imageUrl: "" }));
+                          if (fileInputRef.current) fileInputRef.current.value = "";
+                        }}
+                        className="absolute top-2 right-2 bg-black/50 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-black/70"
+                      >
+                        ✕
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded-lg hover:bg-black/70"
+                      >
+                        Change
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="w-full border-2 border-dashed border-gray-200 rounded-xl py-6 text-sm text-gray-400 hover:border-rose-300 hover:text-rose-400 transition-colors flex flex-col items-center gap-1"
+                    >
+                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                      </svg>
+                      Click to upload image
+                    </button>
+                  )}
                 </div>
 
                 <div className="col-span-2">
